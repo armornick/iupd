@@ -1,0 +1,37 @@
+Using IUP GUI toolkit with D the language
+IUP Version 3.6 
+http://www.tecgraf.puc-rio.br/iup/
+
+IUP is licensed under MIT license ,  see COPYRIGHT-IUP
+IUP-D is Licensed under the Academic Free License version 3.0
+see License.txt or License.html 
+-------
+
+Direct use of the IUP libraries C functions in the D code.
+
+Includes a small simple IupWidget class to wrap a IUP control/widget/dialog etc,
+uses opDisptach() to forward calls to the real IupXxx functions,
+also overrides index operators to read/set attributes (IupStoreAttribute)
+adds methods/functions that set callbacks for a control to point to a method in a class
+eg: 
+
+    IupSetFunction("button1_cb", &button1_callback);
+
+    // button2 is a IupWidget
+    IupSetCallback(button2.ihandle, "ACTION", &button2_cb);
+    IupSetCallback(*button2, "ACTION", &button2_cb);
+    button2.SetCallback("ACTION", &button2_cb);
+
+    // or callbacks = methods of a class
+    // will call this.button2Cb(IHandle*)
+    button2.setCallback!"button2Cb"(this);
+    button3.setCallback!"button3Cb"(this);
+        
+    // set an attribute
+    button3["ACTIVE"] = "No";
+
+    // dlg is a IupWidget
+    dlg.Show();
+
+Philippe Quesnel
+kwez555@hotmail.com
